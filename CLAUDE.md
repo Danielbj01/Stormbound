@@ -1,6 +1,34 @@
-# Project Instructions for AI Agents
+# Stormbound: instructions for AI agents
 
-This file provides instructions and context for AI coding agents working on this project.
+Shaman addon of the Bound family for WoW: Forever, built on LibBound-1.0 (`../LibBound`). Design:
+the Obsidian vault, `Private/projects/Bound Addons/Stormbound Design.md`.
+
+## Build & test
+
+No build step: WoW loads the .lua files directly. Before committing, from this folder:
+
+```bash
+tools/sync-libbound.sh                                                # LibBound into Libs/ (not tracked)
+for f in *.lua; do luac5.1 -p "$f" || echo "syntax error: $f"; done
+~/.luarocks/bin/luacheck .
+wowbench check . && wowbench test .                                   # 0 errors, every scenario ok
+```
+
+Scenarios live in `tests/*.scenario.lua` (`tests/_shaman.lua` is shared setup). Anything shared by
+every Bound addon belongs in LibBound, not here. Run `/codex:review` before every commit.
+
+## Git flow: main is protected
+
+Changes go through pull requests that Claude opens and merges itself:
+`git switch -c <topic>`, commit (with `.beads/issues.jsonl`), `git push -u origin <topic>`,
+`gh pr create --fill` (body ends with the Claude Code attribution line),
+`gh pr merge --squash --delete-branch`. Releases: tag on main, `wowbench pack . --set-version X`,
+`gh release create vX dist/Stormbound-X.zip`.
+
+## Issues
+
+Beads (`bd`). There is no Dolt remote: skip `bd dolt push`.
+
 
 <!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:ca08a54f -->
 ## Beads Issue Tracker
@@ -48,22 +76,3 @@ bd close <id>         # Complete work
 - NEVER say "ready to push when you are" - YOU must push
 - If push fails, resolve and retry until it succeeds
 <!-- END BEADS INTEGRATION -->
-
-
-## Build & Test
-
-_Add your build and test commands here_
-
-```bash
-# Example:
-# npm install
-# npm test
-```
-
-## Architecture Overview
-
-_Add a brief overview of your project architecture_
-
-## Conventions & Patterns
-
-_Add your project-specific conventions here_
