@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "Stormbound",
+  "project_id": "6082cc3e-d84d-40ac-bf39-05ae32b28ce5"
+}
