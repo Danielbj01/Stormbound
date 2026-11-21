@@ -43,7 +43,7 @@ else
 		ns.ReadPlayerBuffs = function() return {}, true end
 		wb.combat(true)
 		wb.expect("known shield countdown remains during combat restriction", shown(), true)
-		wb.check(not T.macroFor("Water Shield"), "shield cast overlay hidden in combat")
+		T.checkCombatMacro("Water Shield")
 		wb.advance(1)
 		wb.check(wb.frame("StormboundShieldFrame").statusText:GetText():find("left"), "cached duration still counts down")
 		ns.ReadPlayerBuffs = read

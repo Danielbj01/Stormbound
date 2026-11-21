@@ -34,7 +34,7 @@ else
 	if m == "combat" then
 		wb.combat(true)
 		wb.expect("imbue card stays visible in combat", wb.shown("StormboundImbueFrame"), true)
-		wb.check(not T.macroFor("Flametongue Weapon"), "combat hides the cast overlay")
+		T.checkCombatMacro("Flametongue Weapon")
 		wb.check(not wb.frame("StormboundImbueFrame").statusText:GetText():find("click", 1, true), "no combat click prompt")
 		wb.setWeaponEnchant(600, 5)
 		wb.expect("fresh imbue clears reminder during combat", wb.shown("StormboundImbueFrame"), false)

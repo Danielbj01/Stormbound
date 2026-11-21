@@ -97,6 +97,11 @@ With a specific tracker, normally pick the same spell to cast. Casting a differe
 
 **Unreadable weapon enchants.**
 Specific imbue tracking uses Classic temporary-enchant IDs. If the client hides or does not supply the enchant ID, the addon does not claim it is the wrong imbue. Any mode only needs the presence and remaining time.
+Specific imbue IDs still need verification on Forever; Any does not depend on matching those IDs.
+
+**Invalid saved imbue choices.**
+An old or manually edited tracking choice that is not recognized is reset to Any with a chat
+notification. The separate spell-to-cast preference is kept.
 
 **Lightning Shield uses up charges.**
 When the last charge is used, the shield is gone and the card says so, even if time was left.

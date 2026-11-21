@@ -10,7 +10,7 @@ local CHOICES = { "Auto", "Windfury", "Flametongue", "Frostbrand", "Rockbiter" }
 ns.IMBUE_CHOICES = CHOICES
 ns.IMBUE_TRACK_CHOICES = { "Any", "Windfury", "Flametongue", "Frostbrand", "Rockbiter" }
 local LISTS = { Windfury = D.windfury, Flametongue = D.flametongue, Frostbrand = D.frostbrand, Rockbiter = D.rockbiter }
--- SpellItemEnchantment IDs, not spell IDs: all ranks in ns.DATA.
+-- Classic SpellItemEnchantment IDs by imbue family; verify each family's IDs on Forever.
 local ENCHANTS = {
 	Windfury = { 283, 284, 525, 1669 },
 	Flametongue = { 3, 4, 5, 523, 1665, 1666 },
@@ -34,13 +34,18 @@ end
 
 -- Returns seconds left, unknown, different. Unreadable identities never claim a mismatch.
 function ns.ImbueLeft()
+	local enchants = ENCHANTS[ns.db.imbueTrack]
+	if ns.db.imbueTrack ~= "Any" and not enchants then
+		ns.db.imbueTrack = "Any"
+		ns.Print("Invalid imbue tracking choice; reset to Any.")
+	end
 	local ok, has, ms, _, enchantID = pcall(GetWeaponEnchantInfo)
 	if not ok or ns.IsSecret(has) or ns.IsSecret(ms) then return nil, true end
 	if not has then return nil end
-	if ns.db.imbueTrack ~= "Any" then
+	if enchants then
 		if ns.IsSecret(enchantID) or type(enchantID) ~= "number" then return nil, true end
 		local matches = false
-		for _, id in ipairs(ENCHANTS[ns.db.imbueTrack]) do
+		for _, id in ipairs(enchants) do
 			if id == enchantID then matches = true; break end
 		end
 		if not matches then return nil, false, true end

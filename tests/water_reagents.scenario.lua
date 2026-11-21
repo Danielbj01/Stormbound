@@ -103,10 +103,10 @@ elseif m == "unlocked" then
 	wb.check(ns.defaults.foPoint ~= ns.defaults.fsPoint, "separate saved positions")
 elseif m == "unknown" then
 	wb.state.spells[8071] = "Stoneskin Totem"
-	local count, isSecret = C_Item.GetItemCount, ns.IsSecret
+	local count, isSecret = wb.G.C_Item.GetItemCount, ns.IsSecret
 	local secret = {}
 	ns.IsSecret = function(value) return value == secret or isSecret(value) end
-	C_Item.GetItemCount = function(id)
+	wb.G.C_Item.GetItemCount = function(id)
 		if id == 17058 or id == 17057 or id == 5175 then return secret end
 		return count(id)
 	end
@@ -118,24 +118,24 @@ elseif m == "unknown" then
 	wb.expect("unknown scales is not zero", wb.frame("StormboundFishScalesFrame").statusText:GetText(), "Item count unavailable")
 	wb.expect("unknown count does not glow", wb.frame("StormboundFishOilFrame"):IsGlowing(), false)
 	wb.expect("unknown totem count is not missing", wb.frame("StormboundTotemItemsFrame").statusText:GetText(), "Item counts unavailable")
-	C_Item.GetItemCount, ns.IsSecret = count, isSecret
+	wb.G.C_Item.GetItemCount, ns.IsSecret = count, isSecret
 	update()
 	wb.expect("readable zero count restores warning", wb.frame("StormboundFishOilFrame").statusText:GetText(),
 		"None left: Water Walking can't be used")
 elseif m == "errors" then
-	local count, printOriginal = C_Item.GetItemCount, ns.Print
+	local count, printOriginal = wb.G.C_Item.GetItemCount, ns.Print
 	local errors = 0
 	ns.Print = function(message)
 		if message:find("Couldn't count reagent 17058", 1, true) then errors = errors + 1 end
 	end
-	C_Item.GetItemCount = function(id)
+	wb.G.C_Item.GetItemCount = function(id)
 		if id == 17058 then error("test count failure") end
 		return count(id)
 	end
 	update(); update()
 	wb.expect("item read error reported once", errors, 1)
 	wb.expect("failed count is not zero", wb.frame("StormboundFishOilFrame").statusText:GetText(), "Item count unavailable")
-	C_Item.GetItemCount, ns.Print = count, printOriginal
+	wb.G.C_Item.GetItemCount, ns.Print = count, printOriginal
 	update()
 	wb.expect("count recovers after API error", wb.frame("StormboundFishOilFrame").statusText:GetText(),
 		"None left: Water Walking can't be used")

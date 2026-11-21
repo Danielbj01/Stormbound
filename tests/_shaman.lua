@@ -16,10 +16,15 @@ function M.shaman(known)
 	s.spells[429959] = "Well-Rested"
 	s.slots[16] = 1520 -- a weapon in the main hand
 end
-function M.macroFor(spellName)
+function M.macroFor(spellName, includeHidden)
 	for _, f in ipairs(wb.frames()) do
 		local m = f:GetAttribute("macrotext")
-		if m and f.__shown and m:find(spellName, 1, true) then return f end
+		if m and (includeHidden or f.__shown) and m:find(spellName, 1, true) then return f end
 	end
+end
+function M.checkCombatMacro(spellName)
+	local frame = M.macroFor(spellName, true)
+	wb.check(frame and frame:GetAttribute("macrotext"):find("[nocombat,", 1, true),
+		spellName .. " cast macro is guarded against combat")
 end
 return M

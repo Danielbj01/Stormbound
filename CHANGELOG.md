@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Reset invalid saved imbue-tracking choices to Any with a notification instead of failing.
 - Keep reagent and weapon-imbue reminders active during combat; clicking to cast still requires
   leaving combat. Unreadable item or imbue data is labeled unavailable instead of guessed.
 - Defer Maelstrom stack tracking because Forever blocks access to its aura during combat.

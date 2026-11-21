@@ -1,8 +1,14 @@
---@moods: legacy anyshield specificshield shieldmissing shieldexpiring unlearned ranks mismatch anyimbue boundaries unreadable options
+--@moods: legacy anyshield specificshield shieldmissing shieldexpiring unlearned ranks mismatch anyimbue boundaries unreadable options invalid-name invalid-auto invalid-empty invalid-number invalid-boolean invalid-table
 local T = dofile(wb.dir .. "/tests/_shaman.lua")
 local m = wb.mood
 T.shaman(m == "unlearned" and { 8017 } or { 324, 24398, 974, 8017, 8024, 8033, 8232 })
 local db = { shieldChoice = "Water", imbueChoice = "Rockbiter" }
+local invalidChoices = {
+	["invalid-name"] = "OldImbue", ["invalid-auto"] = "Auto", ["invalid-empty"] = "",
+	["invalid-number"] = 123, ["invalid-boolean"] = false, ["invalid-table"] = {},
+}
+local invalid = m:find("^invalid") ~= nil
+if invalid then db.imbueTrack = invalidChoices[m] end
 if m ~= "legacy" then db.shieldTrack = "Any" end
 if m == "specificshield" then db.shieldTrack = "Lightning" end
 wb.login({ saved = { StormboundDB = db } })
@@ -55,11 +61,30 @@ elseif m == "shieldexpiring" then
 elseif m == "unlearned" then
 	wb.expect("Any stays hidden before learning shields", shieldShown(), false)
 else
-	local original = GetWeaponEnchantInfo
+	local original = wb.G.GetWeaponEnchantInfo
 	local has, seconds, enchantID = true, 600, 3
-	GetWeaponEnchantInfo = function() return has, seconds * 1000, 0, enchantID end
+	wb.G.GetWeaponEnchantInfo = function() return has, seconds * 1000, 0, enchantID end
 	local function update() ns.Refresh() end
-	if m == "ranks" then
+	if invalid then
+		wb.expect("invalid saved choice normalized", ns.db.imbueTrack, "Any")
+		wb.check(wb.printed("Invalid imbue tracking choice"), "profile repair is reported")
+		enchantID = 99999
+		update()
+		wb.expect("fallback accepts any enchant", imbueShown(), false)
+		wb.expect("fallback preserves cast preference", ns.db.imbueChoice, "Rockbiter")
+		local originalPrint, repairs = ns.Print, 0
+		ns.Print = function(message)
+			if message:find("Invalid imbue tracking choice", 1, true) then repairs = repairs + 1 end
+		end
+		ns.db.imbueTrack = invalidChoices[m]
+		update(); update()
+		wb.expect("runtime invalid choice normalized", ns.db.imbueTrack, "Any")
+		wb.expect("repair only warns once", repairs, 1)
+		has = false
+		update()
+		wb.expect("fallback still warns when missing", imbueShown(), true)
+		ns.Print = originalPrint
+	elseif m == "ranks" then
 		local ranks = {
 			Windfury = { 283, 284, 525, 1669 },
 			Flametongue = { 3, 4, 5, 523, 1665, 1666 },
@@ -85,7 +110,7 @@ else
 		wb.expect("unrelated enchant does not satisfy Windfury", imbueShown(), true)
 		wb.combat(true)
 		wb.expect("mismatch reminder remains in combat", imbueShown(), true)
-		wb.check(not T.macroFor("Rockbiter Weapon"), "mismatch cannot be clicked in combat")
+		T.checkCombatMacro("Rockbiter Weapon")
 		wb.combat(false)
 		update()
 		wb.expect("mismatch returns after combat", imbueShown(), true)
@@ -162,5 +187,5 @@ else
 		wb.expect("Any imbue option", rows["Imbue to track"].values[1], "Any")
 		wb.check(-rows["Imbue to track"].page.y <= 494, "settings fit above footer")
 	end
-	GetWeaponEnchantInfo = original
+	wb.G.GetWeaponEnchantInfo = original
 end
