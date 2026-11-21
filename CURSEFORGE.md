@@ -26,7 +26,7 @@ Stormbound gives you one button per element with the totem that stands and its t
 - In **Reagents** options, choose whether to track Ankhs, **Fish Oil** for Water Walking, and **Shiny Fish Scales** for Water Breathing. Each has its own low-stock limit; the two water-spell reminders start turned off.
 
 ## Travel
-- **Press Escape**: beside the game menu you get Astral Recall and your Hearthstone.
+- **Press Escape**: beside the game menu you get Astral Recall, Water Breathing, Water Walking and your Hearthstone.
 
 ## Also in it
 - **Buff key** (Extras page): out of combat, each press casts the next thing a card asks for.

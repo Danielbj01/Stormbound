@@ -36,7 +36,7 @@ Totem item and Ankh warnings are on by default. When the totem item card shows u
 - Enable either tracker separately in **Reagents** options. Both start off.
 - Each shows its own movable card when your bag count reaches its limit or lower (2 by default).
 - With none left, the card names the spell that cannot be used. No reminder appears until you learn that spell.
-- These reminders do not add water spells back to the Escape-menu travel panel.
+- These reminder settings are independent of the water-spell buttons on the Escape-menu travel panel.
 
 ## Settings
 

@@ -19,7 +19,8 @@ Full guide with screenshots: https://antnsn.github.io/Stormbound/
 - **Reagents**: warns for missing totem items and low Ankhs. Optionally track Fish Oil for Water
   Walking and Shiny Fish Scales for Water Breathing, with a separate toggle and limit for each.
   Reagent and imbue reminders remain active in combat; click-to-cast works out of combat only.
-- **Travel**: press Escape, and beside the game menu you get Astral Recall and your Hearthstone.
+- **Travel**: press Escape, and beside the game menu you get Astral Recall, Water Breathing,
+  Water Walking and your Hearthstone.
 - **Buff key** (Extras page): out of combat, each press casts the next thing a card asks for.
 - **Well-Rested and Well Fed** timers, plain-word explanations in tooltips, movable frames
   (`/storm unlock`), three skins (Storm, Blizzard, Flat).

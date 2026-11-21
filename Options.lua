@@ -79,7 +79,7 @@ local function ReagentPage(UI)
 end
 
 local function TravelPage(UI)
-	local p = UI.NewPage("Travel", "Astral Recall and your Hearthstone beside the game menu (Escape).")
+	local p = UI.NewPage("Travel", "Astral Recall, water spells and your Hearthstone beside the game menu (Escape).")
 	p:Add(select(2, UI.DBToggle(p, 0, p.y, UI.CONTENT_W, "travel", "Show the travel panel when the game menu opens")) + 8)
 end
 

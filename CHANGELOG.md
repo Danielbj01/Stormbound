@@ -8,7 +8,6 @@
 - Defer Maelstrom stack tracking because Forever blocks access to its aura during combat.
 - Add optional Fish Oil (Water Walking) and Shiny Fish Scales (Water Breathing) reminders.
   The Reagents options page has separate toggles and low-stock limits for these items and Ankhs.
-- The Escape-menu travel panel now contains only Astral Recall and Hearthstone.
 - Separate **Shield to track** and **Imbue to track** settings from the spells the cards cast.
 - Track a specific shield or imbue, or choose **Any** to accept any shaman shield or main-hand
   temporary weapon enchant. Specific imbue tracking warns when a different enchant is active.

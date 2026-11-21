@@ -1,4 +1,4 @@
--- The travel panel (LibBound) beside the game menu: Astral Recall and the Hearthstone.
+-- The travel panel (LibBound) beside the game menu: Astral Recall, water spells and the Hearthstone.
 local _, ns = ...
 if ns.disabled then return end
 local Bound = LibStub("LibBound-1.0")
@@ -10,6 +10,8 @@ end
 
 local ROWS = {
 	{ key = "astralRecall", label = "Astral Recall", level = 30, help = "recall" },
+	{ key = "waterBreathing", label = "Water Breathing", level = 22, help = "waterBreathing" },
+	{ key = "waterWalking", label = "Water Walking", level = 28, help = "waterWalking" },
 }
 function ns.TravelRows()
 	local out = {}
